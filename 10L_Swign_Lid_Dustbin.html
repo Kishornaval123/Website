@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            font-family: Roboto;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px;
+            color: #ddd;
+            position: fixed;
+            top: 0;
+            height: 28px;
+            padding-left: 0px;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-item {
+            font-family: Arial, sans-serif;
+            color: white;
+            font-size: 17px;
+            font-weight: 300;
+            text-decoration: none;
+            padding: 14px 20px;
+            display: block;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .hamburger {
+            display: none;
+            margin-right: 20px;
+            font-size: 30px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        @media screen and (max-width: 768px) {
+            .nav-item {
+                margin-left: 8px;
+            }
+
+            .dropdown-content {
+                margin-left: 20px;
+            }
+
+            .navbar {
+                height: auto;
+            }
+
+            .dropdown {
+                margin-left: -46px;
+            }
+
+            .nav-left,
+            .nav-right {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .navbar.active .nav-left,
+            .navbar.active .nav-right {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .nav-left .nav-item,
+            .nav-left .dropdown {
+                width: 100%;
+                text-align: left;
+            }
+
+            .nav-right {
+                margin-top: 10px;
+            }
+        }
+
+        .enquiry-section {
+            position: fixed;
+            top: 50%;
+            right: 5px;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+        .enquiry-icon {
+            gap: 5px;
+            width: 60px;
+            /* Adjust the size of the icons as needed */
+            height: auto;
+            /* Maintain aspect ratio */
+            margin: 0px;
+            /* Add some margin between the icons */
+        }
+
+        /* Responsive styling */
+        @media screen and (max-width: 450px) {
+            .enquiry-section {
+                top: unset;
+                top: 30%;
+                right: 0;
+                bottom: 20px;
+                transform: none;
+            }
+
+            .enquiry-icon {
+                width: 30px;
+                margin-right: 15px;
+                /* Adjust the size of the icons for smaller devices */
+            }
+        }
+
+
+        .cta-button {
+            position: relative;
+            padding: 15px 50px;
+            background-color: black;
+            /* Bootstrap primary color */
+            color: white;
+            text-decoration: none;
+            border-radius: 10%;
+            transition: background-color 0.3s ease;
+            z-index: 999;
+        }
+
+        .cta-button:hover {
+            background-color: #0056b3;
+            /* Darker shade on hover */
+        }
+
+        @media screen and (max-width: 450px) {
+            .cta-button {
+                padding: 7px 15px;
+            }
+
+        }
+
+
+        .hero-section {
+            position: relative;
+            height: 90vh;
+            background-image: url('https://firebasestorage.googleapis.com/v0/b/cedar-scene-404107.appspot.com/o/Untitled%20design%20-%202024-04-15T101232.616.png?alt=media&token=9449fed9-3e5e-42a3-ba70-13e9b7da2c83');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.719);
+        }
+
+        .hero-text {
+            font-size: 35px;
+            position: absolute;
+            top: 50%;
+            left: 35%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+        }
+
+        /* Mobile responsiveness */
+        @media screen and (max-width: 768px) {
+            .hero-text {
+                padding-left: 60px;
+                width: 70%;
+                font-size: 20px;
+            }
+
+
+
+
+
+            .image-section {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 12px;
+                padding-top: 20px;
+            }
+
+            .image-section img {
+                max-width: 100%;
+                height: auto;
+                margin: 10px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .image-section {
+                flex-direction: column;
+            }
+        }
+
+
+        .catalog-container {
+            display: flex;
+            align-items: center;
+
+            margin: 20px;
+            background-color: #f9f9f9;
+        }
+
+        .text-container {
+            color: black;
+            margin-left: 20px;
+            font-size: 18px;
+            flex: 1;
+
+        }
+
+        .download-button {
+            flex: 0 0 auto;
+            margin-right: 60px;
+            padding: 15px 60px;
+            background-color: black;
+            color: white;
+            border: none;
+            font-size: 18px;
+            font-weight: 900;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .download-button:hover {
+            background-color: #3584da;
+        }
+
+        @media screen and (max-width: 768px) {
+            .catalog-container {
+                display: flex;
+                align-items: center;
+                border-radius: 3%;
+                margin: 20px;
+                background-color: #333;
+            }
+
+            .text-container {
+                color: white;
+                margin-left: 10px;
+                font-size: 15px;
+                flex: 1;
+
+            }
+
+            .download-button {
+                flex: 0 0 auto;
+                margin-right: 30px;
+                padding: 12px 25px;
+                background-color: black;
+                color: white;
+                border: none;
+                font-size: 15px;
+                font-weight: 900;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+
+        }
+
+
+        .product-section {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .product-images {
+            margin-top: 6%;
+            width: 100%;
+            max-width: 600px;
+            /* Adjust as needed */
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .image-carousel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .image-carousel img {
+            width: 100%;
+            height: auto;
+        }
+
+        .prev-btn,
+        .next-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1;
+        }
+
+        .prev-btn {
+            left: 0;
+        }
+
+        .next-btn {
+            right: 0;
+        }
+
+        .product-description {
+            border: 1px solid black;
+            margin: 20px;
+            width: 100%;
+            padding: 20px;
+            max-width: 650px;
+            /* Adjust as needed */
+        }
+
+        .product-description h2 {
+            font-size: 26px;
+        }
+
+        .product-description p {
+            font-size: 17px;
+        }
+
+        .enquiry-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 14px 70px;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 5px;
+        }
+
+        .enquiry-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .container input[type="submit"] {
+            width: 50%;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 12px 0;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .container input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+
+        @media screen and (max-width: 768px) {
+            .product-description {
+
+
+                width: 100%;
+                margin-left: 20px;
+                max-width: 580px;
+                /* Adjust as needed */
+            }
+
+            .product-images {
+                max-width: 100%;
+            }
+
+            .product-description {
+                margin-top: 20px;
+                max-width: 100%;
+            }
+        }
+
+        .specifications {
+            border: 1px solid black;
+            background-color: #333;
+            color: white;
+
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+
+        .specifications td {
+            border: 1px solid black;
+
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .specifications td:first-child {
+            border: 1px solid black;
+
+            font-weight: bold;
+        }
+
+        /* Pop-up Form Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            overflow: auto;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 20% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+
+        .container input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .button[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* FAQ Section Styles */
+        .faq-section {
+            margin-top: 40px;
+            /* Center the section */
+            padding: 1rem;
+            background: #333;
+            color: white;
+            border-radius: 8px;
+            max-width: 1310px;
+            /* Limit width to 1350px */
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1rem;
+            text-align: left;
+            background: #e7e7e7;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            color: black;
+            display: none;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            background: #fff;
+            border-left: 3px solid #0078d4;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* Media Query for Small Devices */
+        @media screen and (max-width: 600px) {
+
+            .faq-question,
+            .faq-answer {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Media Query for Full Screen at 1350px */
+        @media screen and (min-width: 1310px) {
+            .faq-section {
+                width: 100%;
+            }
+        }
+
+
+        /* General styles */
+        .containar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: white;
+            color: black;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px;
+            width: calc(33.33% - 40px);
+            /* Three cards per row with spacing */
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .card {
+                width: calc(30% - 40px);
+                /* Two cards per row with spacing */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                width: calc(100% - 40px);
+                /* One card per row with spacing */
+            }
+        }
+
+        /* CSS */
+        .image-card-container {
+            font-family: Roboto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .image-card {
+            width: calc(20% - 80px);
+            /* Adjust the width for 4 cards in a row */
+            margin: 5px;
+            border-radius: 50%;
+            /* This makes the image card circular */
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* CSS */
+        .image-card {
+            /* ... your existing styles ... */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            /* Smooth transition for hover effects */
+        }
+
+        .image-card:hover {
+            transform: scale(1.1);
+            /* Scales up the card slightly */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            /* Adds a shadow for depth */
+        }
+
+        .image-card img {
+            width: 100%;
+
+            height: auto;
+            display: block;
+        }
+
+        .image-card .icon {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            padding: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .image-card {
+                width: calc(50% - 50px);
+                /* Adjust the width for 2 cards in a row on small devices */
+            }
+
+        }
+
+
+        .certificate-section {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+        }
+
+        .certificate-card {
+            flex: 0 0 auto;
+            width: 220x;
+            padding-right: 40px;
+            padding-left: 50px;
+            scroll-snap-align: start;
+        }
+
+
+        .certificate-card img {
+            width: 280px;
+            height: auto;
+        }
+
+        .certificate-card:last-child {
+            margin-right: 0;
+        }
+
+        @media screen and (min-width: 450px) {
+
+            /* Add desktop-specific styles here */
+            .certificate-section {
+                overflow-x: visible;
+                scroll-snap-type: none;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+                gap: 5px;
+            }
+
+            .certificate-card {
+                margin-right: 0;
+                padding-right: 30px;
+                padding-left: 20px;
+                scroll-snap-align: none;
+            }
+
+            .certificate-card img {
+                width: 220px;
+            }
+        }
+
+        .footer {
+            background-color: #333;
+            margin-top: 20px;
+            color: white;
+            padding: 10px;
+            text-align: center;
+
+        }
+
+
+
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .footer-column {
+            padding: 20px;
+            flex: 1;
+            flex-basis: 160px;
+        }
+
+        .footer-logo img {
+            width: 100px;
+            /* Adjust the size of your logo */
+        }
+
+        .footer-nav,
+        .footer-social {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-nav li,
+        .footer-social li {
+            text-decoration: none;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .footer-social img {
+            width: 10%;
+            /* Adjust the size of your social icons */
+        }
+    </style>
+</head>
+
+<body>
+
+    <body>
+
+        <nav class="navbar">
+            <div class="nav-left" id="navMenu">
+                <a href="Home..page.html" class="nav-item" style="background-color:#04AA6D;">Home</a>
+                <div class="dropdown">
+                    <button class="nav-item dropbtn">Products</button>
+                    <div class="dropdown-content">
+                        <a href="Dustbins.html">Dustbins</a>
+                        <a href="Garbage_Bags.html">Garbage Bags</a>
+                        <a href="Sharp_Containers.html">Sharp Containers & Needle Cutter</a>
+                        <a href="Wringer_Trolley.html">Wringer Trolley</a>
+                        <a href="ROTO_products.html">Roto Produts</a>
+                        <a href="pallets.html">Plastic Pallets</a>
+                    </div>
+                </div>
+                <a href="ABOUTUS_2.html" class="nav-item">About Us</a>
+                <a href="Contact2.html" class="nav-item">Contact Us</a>
+            </div>
+            <button class="hamburger" onclick="toggleMenu()"><svg xmlns="http://www.w3.org/2000/svg" height="24px"
+                    viewBox="0 -960 960 960" width="24px" fill="White">
+                    <path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z" />
+                </svg></button>
+        </nav>
+        <!-- Main content -->
+        <div class="main-content">
+
+            <section class="hero-section">
+                <div class="hero-overlay"></div>
+                <div class="hero-text" style="text-align: left; margin-left: 10px;">
+                    <h1> 10L Swing Lid Bin</h1>
+                    <p style="font-size:20px;">Optimize your waste management with our 10 L Swing Lid Dustbin. Its
+                        compact design, durable construction, and easy-to-use features make it a perfect addition to any
+                        home or office. Order your 10 L Swing Lid Dustbin today and enjoy a cleaner, more organized
+                        space!
+                    </p>
+                    <!-- Add more content as needed -->
+                </div>
+            </section>
+
+            <div class="enquiry-section">
+                <ul>
+                    <li>
+                        <a href="tel:+919810057441" target="_blank">
+                            <img src="https://cdn.pixabay.com/photo/2021/10/29/21/40/phone-icon-6753051_960_720.png"
+                                alt="Phone" class="enquiry-icon">
+                        </a>
+                    </li>
+          
+                    <li>
+                        <a href="mailto:Polywelldustbin@gmail.com" target="_blank">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Email_icon.png" alt="Email"
+                                class="enquiry-icon">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://wa.me/9810057441" target="_blank">
+                            <img src="http://www.pngall.com/wp-content/uploads/2016/04/WhatsApp-PNG-Picture.png"
+                                alt="WhatsApp" class="enquiry-icon">
+                        </a>
+                    </li>
+          
+                </ul>
+            </div>
+          
+
+            <div>
+                <div class="product-section">
+                    <div class="product-images">
+                        <div class="image-carousel">
+                            <img src="Web_doc/10L_SwingLid.png" alt="Product Image 1">
+                            <img src="Web_doc/25L_SwingLid.png" alt="Product Image 2">
+
+                            <!-- Add more images as needed -->
+                        </div>
+                        <button class="prev-btn" onclick="prevImage()">&#10094;</button>
+                        <button class="next-btn" onclick="nextImage()">&#10095;</button>
+                    </div>
+                    <div class="product-description">
+                        <h2>Swing Lid Bin (10L)
+                        </h2>
+                        <p>Introducing the 10 L Swing Lid Dustbin, your perfect waste disposal solution for small
+                            spaces. Designed with convenience and efficiency in mind, this compact dustbin is ideal for
+                            kitchens, bathrooms, offices, and other small areas. Its durable construction and
+                            easy-to-use swing lid make it a practical choice for maintaining cleanliness and hygiene.
+                        </p>
+
+
+                        <table class="specifications">
+                            <tr>
+                                <td>Model:</td>
+                                <td>PWE10 (SLRO)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Capacity:</td>
+                                <td>10 Liters</td>
+                            </tr>
+                            <tr>
+                                <td>Top Diameter</td>
+                                <td>27 cms
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bottom Diameter
+                                </td>
+                                <td>19.6 cms
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Container Height </td>
+                                <td>11.5 cms
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Lid Height </td>
+                                <td>11.5 cms
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Raw Material:</td>
+                                <td>Polypropylene Copolymer(PPCP)
+                                </td>
+                            </tr>
+
+
+                            <tr>
+                                <td>Manufacturing Type:</td>
+                                <td>Injection Moulding</td>
+                            </tr>
+                            <tr>
+                                <td>Lid:</td>
+                                <td>Yes</td>
+                            </tr>
+                            <tr>
+                                <td>Peddal:</td>
+                                <td>No</td>
+                            </tr>
+
+
+
+                            <!-- Add more specifications as needed -->
+                        </table>
+                        <button class="enquiry-btn" onclick="openEnquiryForm()">Enquiry</button>
+                    </div>
+                </div>
+
+                <div id="enquiry-modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close" onclick="closeEnquiryForm()">&times;</span>
+                        <h2 style="text-align: center; font-size: 28px; color:white; background-color:#333;">Enquiry
+                            Form</h2>
+                        <div class="container">
+
+                            <form id="contact-form" style="margin-top: -20px;">
+
+                                <input type="text" name="your-name" placeholder="Name">
+                                <input type="text" name="your-number" placeholder="Number">
+                                <input type="email" name="your-email" placeholder="Email">
+                                <textarea name="message" rows="7" placeholder="Your Message"></textarea>
+                                <input type="submit" value="Submit" id="submit">
+                            </form>
+                            <div id="message" style="display: none;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <h2>Frequently Asked Questions</h2>
+                <div class="faq-item">
+                    <button class="faq-question">Why Choose Our Swing Lid Bin? </button>
+                    <div class="faq-answer">
+                        <p>
+                        <ul>
+                            <li> <b>Efficiency:
+                                </b>
+                                The swing lid design provides easy access while keeping waste concealed and controlling
+                                odors.
+
+                            </li>
+                            <li> <b>Hygiene:
+                                </b>The secure and durable construction help maintain a clean and sanitary
+                                environment.
+                            </li>
+                            <li><b> Space-Saving:
+                                </b>Compact size makes it perfect for small areas without sacrificing capacity.
+                            </li>
+                            <li><b>Aesthetic Appeal:
+                                </b>
+                                Stylish design that complements any decor, enhancing the look of your space.
+                            </li>
+                        </ul>
+
+                        </p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Benefits of using Swing Lid Bin </button>
+                    <div class="faq-answer">
+                        <p>Using a swing lid bin keeps waste out of sight, controls odors, and provides easy, hands-free
+                            disposal. Its compact design fits small spaces, making it ideal for kitchens, bathrooms, and
+                            offices. Durable and easy to clean, it promotes hygiene and enhances the convenience of
+                            waste management. </p>
+                    </div>
+                </div>
+                <!-- Add more FAQ items as needed -->
+            </div>
+
+
+
+            <h1 style="margin-left: 5px;">This product is ideal for</h1>
+            <div class="image-card-container">
+                <div class="image-card">
+                    <img src="https://icons.iconarchive.com/icons/blackvariant/button-ui-system-folders-alt/512/Home-icon.png"
+                        alt="Description">
+                    <div class="icon">🔍</div>
+                </div>
+                <div class="image-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4625/4625853.png" alt="Description">
+                    <div class="icon">🔍</div>
+                </div>
+
+                <div class="image-card">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvfSYn35O5vdQaUVJgnI8YNHrvty78Wlo65e28yARvSW2VJDex4hTrJ5AAvXuWkYVPxb4&usqp=CAU"
+                        alt="Description">
+                    <div class="icon">🔍</div>
+                </div>
+
+                <div class="image-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/9069/9069876.png" alt="Description">
+                    <div class="icon">🔍</div>
+                </div>
+
+
+                <!-- Repeat the above block for the other 3 image cards -->
+            </div>
+
+            <div style="background-color:  rgb(9, 9, 26) ;">
+                <h1 style="text-align: center; color:white; background-color:  rgb(9, 9, 26); padding-top: 40px;">Uses
+                    of
+                    Product</h1>
+                <div class="containar" style="background-color:  rgb(9, 9, 26);">
+                    <div class="card">
+                        <h2> Household Waste Management</h2>
+                        <p>
+                            <li><b>Kitchen:</b> Ideal for disposing of food scraps, packaging, and other kitchen waste.
+                                The hands-free operation ensures that your hands stay clean while cooking.</li>
+                            <li> <b>Bathroom:</b> Perfect for sanitary waste such as tissues, cotton swabs, and other
+                                bathroom disposables.</li>
+                            <li><b>Bedrooms and Living Areas:</b> Helps keep these spaces tidy by providing a convenient
+                                place to dispose of small waste items like paper, wrappers, and more.
+                            </li>
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <h2> Educational Institutions</h2>
+                        <p>
+                            <li><b> Classrooms: </b>Keeps classrooms clean by providing a convenient place for students
+                                to dispose of paper, snack wrappers, and other classroom waste.
+                            </li>
+                            <li> <b> Libraries:</b> Helps maintain a quiet and clean environment by managing paper waste
+                                and other refuse.
+                            </li>
+                            <li><b>Coachings</b>Helps maintain a quiet and clean environment by managing paper waste
+                                and other refuse. </li>
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+                        <h2> Outdoor Areas</h2>
+                        <p>
+                            <li><b>Gardens and Patios:</b> Suitable for use in outdoor areas to manage waste
+                                efficiently, particularly in
+                                sheltered spots to prevent rainwater from entering. </li>
+                            <li> <b>Picnic Areas: </b> Helps keep outdoor eating areas clean by providing a convenient
+                                place for guests to dispose of their trash.</li>
+                        </p>
+
+                    </div>
+
+                    <div class="card">
+                        <h2> Healthcare and Sanitation</h2>
+                        <p>
+                            <li><b>Sanitary Waste Disposal: </b> Ideal for safely disposing of personal protective
+                                equipment (PPE), sanitary products, and other waste in a hygienic manner. </li>
+                            <li> <b>Preventing Cross-Contamination:</b> The hands-free operation reduces the risk of
+                                cross-contamination, making pedal dustbins particularly valuable in healthcare and food
+                                preparation settings.
+                            </li>
+
+                        </p>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="catalog-container">
+                <div class="text-container">
+                    <p style="font-size: larger;">Download our product catalog to explore our latest offerings.</p>
+                </div>
+                <button class="download-button"
+                    onclick="window.open('https://drive.google.com/file/d/1o7YoRZYSuudPFUjBQP-ZR0vi6BY4vPqj/view?usp=sharing', '_blank')">Download</button>
+            </div>
+
+
+
+            <div>
+                <h1 style="text-align: center; font-size: 40px;padding-top: 20px; color:black;"> Certifications</h1>
+
+                <div class="certificate-section">
+                    <!-- Certificate Card 1 -->
+                    <div class="certificate-card">
+                        <img src="https://i0.wp.com/informthestudents.files.wordpress.com/2024/02/certificate-3.jpg?ssl=1"
+                            alt="Certificate 1">
+
+                    </div>
+
+                    <div class="certificate-card">
+                        <img src="https://i0.wp.com/informthestudents.files.wordpress.com/2024/02/certificate-4.jpg?ssl=1"
+                            alt="Certificate 1">
+                    </div>
+
+                    <div class="certificate-card">
+                        <img src="https://i0.wp.com/informthestudents.files.wordpress.com/2024/02/certificate-4.jpg?ssl=1"
+                            alt="Certificate 1">
+                    </div>
+
+                    <div class="certificate-card">
+                        <img src="https://i0.wp.com/informthestudents.files.wordpress.com/2024/02/certificate-5.jpg?ssl=1"
+                            alt="Certificate 1">
+                    </div>
+
+                    <div class="certificate-card">
+                        <img src="https://i0.wp.com/informthestudents.files.wordpress.com/2024/02/cirtificate2.jpg?ssl=1"
+                            alt="Certificate 1">
+                    </div>
+                    <!-- Repeat for other certificate cards -->
+                </div>
+            </div>
+
+
+
+
+            <footer class="footer">
+                <div class="footer-container" style="color: white; text-align: justify;">
+                    <!-- Column 1: Logo and Description -->
+                    <div class="footer-column footer-logo">
+                        <img src="https://polywell.co.in/wp-content/uploads/2021/05/Polywell-Logo-291-x77-1-2.png"
+                            alt="Company Logo">
+                        <p>Your company description here.</p>
+                        <p> <a href="tel:+91 9310001907" class="cta-button" id="call-btn"><b>Call </b></a>
+
+                        </p>
+                    </div>
+                    <!-- Column 2: Featured Products -->
+                    <!-- Column 3: Navigation Links -->
+                    <div class="footer-column">
+
+                        <ul class="footer-nav" style="text-align: justify;">
+                            <li><a href="#">
+                                    <p style="color: white;">Home</p>
+                                </a></li>
+                            <li><a href="#">
+                                    <p style="color: white;">Products</p>
+                                </a></li>
+                            <li><a href="#">
+                                    <p style="color: white;">About Us</p>
+                                </a></li>
+                            <li><a href="#">
+                                    <p style="color: white;">Contact Us</p>
+                                </a></li>
+                        </ul>
+                    </div>
+                    <!-- Column 4: Social Media Links -->
+                    <div class="footer-column" style=" text-align: justify;">
+
+                        <ul class="footer-social">
+                            <li><a href="https://www.facebook.com/polywel/" target="_blank"><img
+                                        src="https://www.edigitalagency.com.au/wp-content/uploads/Facebook-logo-blue-circle-large-transparent-png.png"
+                                        alt="Facebook"></a></li>
+                            <li><a href="https://www.linkedin.com/in/polywell/" target="_blank"><img
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/LinkedIn_icon_circle.svg/2048px-LinkedIn_icon_circle.svg.png"
+                                        alt="Twitter"></a></li>
+                            <li><a href="https://www.instagram.com/polywell_dustbins_biohazardbag/" target="_blank"><img
+                                        src="https://png.pngtree.com/png-clipart/20230401/original/pngtree-three-dimensional-instagram-icon-png-image_9015419.png"
+                                        alt="Twitter"></a></li>
+
+                            <!-- Add more social media icons as needed -->
+                        </ul>
+                    </div>
+                </div>
+            </footer>
+
+
+    </body>
+
+
+    <script>
+        function toggleMenu() {
+            const navbar = document.querySelector('.navbar');
+            navbar.classList.toggle('active');
+        }
+
+        function openBlog(blogType) {
+            // Hide all blog contents
+            var blogContents = document.getElementsByClassName("blog-content");
+            for (var i = 0; i < blogContents.length; i++) {
+                blogContents[i].style.display = "none";
+            }
+
+            // Show the selected blog content
+            var selectedBlog = document.getElementById(blogType + "-blog");
+            selectedBlog.style.display = "block";
+        }
+
+        document.getElementById('call-btn').addEventListener('click', function () {
+            alert('Calling +91 9310001907...');
+            // The browser will handle the actual call log opening
+        });
+
+        document.getElementById('contact-form').addEventListener('submit', handleSubmit);
+
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form element
+            var form = event.target;
+
+            // Create a new FormData object
+            var formData = new FormData(form);
+
+            // Your Google Apps Script web URL
+            var scriptURL = 'https://script.google.com/macros/s/AKfycbzs92xX8GFQTO_VFYfgvLucrm1ujbGieLcfiJ4mbzD0UbCnoQDh3o0tSfhSnmcvSdBJ/exec';
+
+            // Send form data to the Google Apps Script URL using AJAX
+            fetch(scriptURL, {
+                method: 'POST', // Specify POST method
+                body: formData
+            })
+                .then(() => {
+                    window.alert("Form Submitted");
+                })
+                .catch(error => {
+                    window.alert("Form Submitted");
+                });
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        window.onload = function () {
+            setTimeout(function () {
+                document.getElementById('popup').style.display = 'flex';
+            }, 5000); // 5 seconds delay
+        };
+        function myFunction() {
+            var x = document.getElementById("myTopnav");
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
+            }
+        }
+
+
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Get form element
+            var form = event.target;
+
+            // Create a new FormData object
+            var formData = new FormData(form);
+
+            // Your Google Apps Script web URL
+            var scriptURL = 'https://script.google.com/macros/s/AKfycbzs92xX8GFQTO_VFYfgvLucrm1ujbGieLcfiJ4mbzD0UbCnoQDh3o0tSfhSnmcvSdBJ/exec';
+
+            // Send form data to the Google Apps Script URL using AJAX
+            fetch(scriptURL, {
+                method: 'POST', // Specify POST method
+                body: formData
+            })
+                .then(() => {
+                    window.alert("Form Submitted");
+                })
+                .catch(error => {
+                    window.alert("Form Submitted");
+                });
+        }
+
+        function closePopup() {
+            document.getElementById('popup').style.display = 'none';
+        }
+
+        window.onload = function () {
+            setTimeout(function () {
+                document.getElementById('popup').style.display = 'flex';
+            }, 5000); // 5 seconds delay
+        };
+
+        let currentIndex = 0;
+        const images = document.querySelectorAll('.image-carousel img');
+
+        function showImage(index) {
+            images.forEach((image, i) => {
+                if (i === index) {
+                    image.style.display = 'block';
+                } else {
+                    image.style.display = 'none';
+                }
+            });
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            showImage(currentIndex);
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            showImage(currentIndex);
+        }
+
+        function openEnquiryForm() {
+            document.getElementById('enquiry-modal').style.display = 'block';
+        }
+
+        function closeEnquiryForm() {
+            document.getElementById('enquiry-modal').style.display = 'none';
+        }
+
+        // Close the modal if clicked outside of the modal content
+        window.onclick = function (event) {
+            const modal = document.getElementById('enquiry-modal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const answer = item.nextElementSibling;
+                answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
+                item.parentElement.classList.toggle('active');
+            });
+        });
+
+
+    </script>
+
+</body>
+
+</html>
